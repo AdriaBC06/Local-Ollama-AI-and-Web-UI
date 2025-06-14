@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vicuna Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Vicuna Chat 🐾</h1>
+    <div id="chat-container"></div>
+    <div id="input-container">
+        <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function displayMessage(content, type) {
+            const chatContainer = document.getElementById("chat-container");
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = content;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const userInput = input.value.trim();
+            if (!userInput) return;
+
+            displayMessage(userInput, "user");
+            input.value = "";
+
+            try {
+                const response = await fetch('http://localhost:8000', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `message=${encodeURIComponent(userInput)}`
+                });
+                const data = await response.json();
+                displayMessage(data.response, "ai");
+            } catch (error) {
+                console.error("Error:", error);
+                displayMessage("Oops, something went wrong! 😓", "ai");
+            }
+        }
+
+        // Handle Enter key
+        document.getElementById("user-input").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+</html>
