@@ -47,7 +47,6 @@ If you prefer using the AI directly from the terminal:
 You __must__ configure the model name or other settings directly in `ai_chat.py` or `ai_chat_web.py`.
 
 ## Project Structure
-    ```
     .
     ├── conversation_memory.json  # Stores chat history
     ├── index.html               # HTML template for the web interface
@@ -56,4 +55,3 @@ You __must__ configure the model name or other settings directly in `ai_chat.py`
     ├── vicuna_chat.py           # CLI version for terminal interaction
     ├── vicuna_chat_web.py       # Starts the web interface
     ├── requirements.txt         # Python dependencies
-    ```
